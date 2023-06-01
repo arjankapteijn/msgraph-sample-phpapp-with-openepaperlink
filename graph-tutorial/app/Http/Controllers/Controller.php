@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 
 class Controller extends BaseController
 {
@@ -24,12 +25,14 @@ class Controller extends BaseController
             $viewData['errorDetail'] = session('errorDetail');
         }
 
+        //dd(cache('userName'));
+
         // Check for logged on user
-        if (session('userName'))
+        if (Cache::has('userName'))
         {
-            $viewData['userName'] = session('userName');
-            $viewData['userEmail'] = session('userEmail');
-            $viewData['userTimeZone'] = session('userTimeZone');
+            $viewData['userName'] = Cache::get('userName');
+            $viewData['userEmail'] = Cache::get('userEmail');
+            $viewData['userTimeZone'] = Cache::get('userTimeZone');
         }
 
         return $viewData;
